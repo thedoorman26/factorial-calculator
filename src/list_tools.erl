@@ -1,18 +1,21 @@
--module(lists).
+%% A program to create and manipulate a list using lists:map and lists:foldl.
+
+-module(list_tools).
 -export([start/0]).
 
+%% Entry point
 start() ->
     io:format("Enter a list of integers separated by spaces: "),
-    {ok, Input} = io:get_line(""),
+    Input = io:get_line(""),
     List = parse_list(Input),
     menu(List).
 
-%% Parse input string into list of integers using lists:map.
+%% Parse input string into a list of integers using lists:map
 parse_list(Str) ->
-    Words = string:tokens(Str, " \n"),
+    Words = string:tokens(string:trim(Str), " "),
     lists:map(fun(X) -> list_to_integer(X) end, Words).
 
-%% Display menu and recurse.
+%% Display menu and handle user choices
 menu(List) ->
     io:format("\nCurrent list: ~p~n", [List]),
     io:format("Choose an option:~n"),
@@ -22,7 +25,7 @@ menu(List) ->
     io:format("  4) Enter a new list~n"),
     io:format("  5) Quit~n"),
     io:format("Your choice: "),
-    {ok, ChoiceStr} = io:get_line(""),
+    ChoiceStr = io:get_line(""),
     Choice = string:trim(ChoiceStr),
 
     case Choice of
@@ -43,7 +46,7 @@ menu(List) ->
             end,
             menu(List);
         "4" ->
-            start();
+            start(); %% Enter a new list
         "5" ->
             io:format("Goodbye!~n"),
             ok;

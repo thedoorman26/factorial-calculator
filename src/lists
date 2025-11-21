@@ -1,0 +1,53 @@
+-module(lists).
+-export([start/0]).
+
+start() ->
+    io:format("Enter a list of integers separated by spaces: "),
+    {ok, Input} = io:get_line(""),
+    List = parse_list(Input),
+    menu(List).
+
+%% Parse input string into list of integers using lists:map.
+parse_list(Str) ->
+    Words = string:tokens(Str, " \n"),
+    lists:map(fun(X) -> list_to_integer(X) end, Words).
+
+%% Display menu and recurse.
+menu(List) ->
+    io:format("\nCurrent list: ~p~n", [List]),
+    io:format("Choose an option:~n"),
+    io:format("  1) Reverse the list~n"),
+    io:format("  2) Get length of the list~n"),
+    io:format("  3) Check if palindromic~n"),
+    io:format("  4) Enter a new list~n"),
+    io:format("  5) Quit~n"),
+    io:format("Your choice: "),
+    {ok, ChoiceStr} = io:get_line(""),
+    Choice = string:trim(ChoiceStr),
+
+    case Choice of
+        "1" ->
+            Reversed = lists:reverse(List),
+            io:format("Reversed list: ~p~n", [Reversed]),
+            menu(List);
+        "2" ->
+            %% Use lists:foldl to compute length manually
+            Length = lists:foldl(fun(_, Acc) -> Acc + 1 end, 0, List),
+            io:format("Length: ~p~n", [Length]),
+            menu(List);
+        "3" ->
+            IsPal = List =:= lists:reverse(List),
+            case IsPal of
+                true -> io:format("The list IS palindromic.~n");
+                false -> io:format("The list is NOT palindromic.~n")
+            end,
+            menu(List);
+        "4" ->
+            start();
+        "5" ->
+            io:format("Goodbye!~n"),
+            ok;
+        _ ->
+            io:format("Invalid choice. Try again.~n"),
+            menu(List)
+    end.

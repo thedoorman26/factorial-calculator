@@ -1,8 +1,8 @@
 -module(fibonacci).
--export([main/0]).
+-export([start/0]).
 
 %% Entry point
-main() ->
+start() ->
     %% Create ETS table for memoization (if not already created)
     case ets:info(fib_cache) of
         undefined ->

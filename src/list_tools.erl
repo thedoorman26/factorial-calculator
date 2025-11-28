@@ -1,21 +1,19 @@
-%% A program to create and manipulate a list using lists:map and lists:foldl.
-
 -module(list_tools).
 -export([start/0]).
 
-%% Entry point
+%% entry point
 start() ->
     io:format("Enter a list of integers separated by spaces: "),
     Input = io:get_line(""),
     List = parse_list(Input),
     menu(List).
 
-%% Parse input string into a list of integers using lists:map
+%% parse input string into a list of integers using lists:map
 parse_list(Str) ->
     Words = string:tokens(string:trim(Str), " "),
     lists:map(fun(X) -> list_to_integer(X) end, Words).
 
-%% Display menu and handle user choices
+%% display menu and handle user choices
 menu(List) ->
     io:format("\nCurrent list: ~p~n", [List]),
     io:format("Choose an option:~n"),
@@ -34,7 +32,7 @@ menu(List) ->
             io:format("Reversed list: ~p~n", [Reversed]),
             menu(List);
         "2" ->
-            %% Use lists:foldl to compute length manually
+            %% use lists:foldl to compute length manually
             Length = lists:foldl(fun(_, Acc) -> Acc + 1 end, 0, List),
             io:format("Length: ~p~n", [Length]),
             menu(List);
@@ -46,7 +44,7 @@ menu(List) ->
             end,
             menu(List);
         "4" ->
-            start(); %% Enter a new list
+            start(); %% enter a new list
         "5" ->
             io:format("Goodbye!~n"),
             ok;

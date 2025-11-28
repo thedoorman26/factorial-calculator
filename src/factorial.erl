@@ -1,12 +1,12 @@
 -module(factorial).
--export([start/0, loop/0, factorial/1]).
+-export([start/0]).
 
-%% Entry point
+%% entry point
 start() ->
     io:format("Type a number to calculate its factorial, or 'q' to quit.~n"),
     loop().
 
-%% Main interactive loop
+%% main interactive loop
 loop() ->
     io:format("Enter number (or q): "),
     Input = io:get_line(""),
@@ -28,8 +28,7 @@ loop() ->
             end
     end.
 
-%% Recursive factorial function
 factorial(0) ->
-    1;
+    1; %% base case
 factorial(N) when N > 0 ->
-    N * factorial(N - 1).
+    N * factorial(N - 1). %% recursively calls itself until N=0

@@ -1,19 +1,18 @@
 -module(fibonacci).
 -export([start/0]).
 
-%% Entry point
 start() ->
-    %% Create ETS table for memoization (if not already created)
+    %% create ets table for memoization if not already created
     case ets:info(fib_cache) of
         undefined ->
             ets:new(fib_cache, [named_table, public, set]),
-            ets:insert(fib_cache, [{0, 0}, {1, 1}]);
+            ets:insert(fib_cache, [{0, 0}, {1, 1}]); % needs to have at least 2 set values for later function
         _ -> ok
     end,
 
     loop().
 
-%% Main loop to repeatedly get user input
+%% main loop to repeatedly get user input
 loop() ->
     io:format("Enter a non-negative integer for Fibonacci (or 'q' to quit): "),
     case io:get_line("") of
@@ -43,15 +42,15 @@ parse_int(Line) ->
         {Int, _Rest} -> {ok, Int}
     end.
 
-%% Memoized Fibonacci function
+%% memoized fibonacci function
 fib(N) ->
-    %% Check cache first
+    %% check cache first, returns value if already cached
     case ets:lookup(fib_cache, N) of
         [{N, Value}] ->
             Value;
 
         [] ->
-            %% If not cached, compute recursively
+            %% if not cached, compute recursively
             Value = fib(N - 1) + fib(N - 2),
             ets:insert(fib_cache, {N, Value}),
             Value

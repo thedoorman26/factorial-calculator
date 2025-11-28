@@ -26,3 +26,4 @@ Here are some links to resources that I found helpful:
 Some things I'd like to add/change in the future:
 * More list manipulation tools
 * Cleaner output presentation
+* Negative number sanitizing for factorial calc
